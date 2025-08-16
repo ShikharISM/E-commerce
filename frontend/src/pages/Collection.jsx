@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import Title from '../components/Title'
-import ProductItem from '../components/ProductItem';
+import ProductItem from '../components/ProductItem'; 
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products,search,setsearch} = useContext(ShopContext);
   const [showFilter, setshowFilter] = useState(false);
   const [filterProducts,setfilterProducts] = useState([]);
   const [category,setCategory] = useState([]);
@@ -19,7 +19,7 @@ const Collection = () => {
       setCategory(prev => [...prev,e.target.value]); // add the category into the category array 
     }
   }
-  
+
   const toggleSubCategory = (e) => {
     if(subcategory.includes(e.target.value)){ // subcategory clicked is already set then unset it
     setSubCategory(prev => prev.filter(item => item!=e.target.value)); 
@@ -53,8 +53,12 @@ useEffect(() => {
     filtered = filtered.sort((a, b) => b.price - a.price);
   }
 
+  if(search){
+    filtered = filtered.filter((item)=> item.name.toLowerCase().includes(search.toLowerCase()));
+  }
+   
   setfilterProducts(filtered);
-}, [category, subcategory, sorttype, products]); 
+}, [category, subcategory, sorttype, products,search]); 
 
   useEffect(()=>{
     console.log(products);
