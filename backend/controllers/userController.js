@@ -3,22 +3,19 @@ import validator from 'validator'
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
 
-const createToken = (id)=>{ 
-    return jwt.sign({
-        id,
-        sign:process.env.JWT_SECRET,
-    })
-}
- 
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+};
+
 //Route for User Login
 const LoginUser = async (req,res) => {
   try {
     const {email,password} = req.body;
-    const User = await user.findOne(email);
+    const User = await user.findOne({email});
     if(!User){
         return res.json({success:false,message:"Enter Valid Credentials"});
     } 
-    const isMatch = await bcrypt.compare(password,user.password);
+    const isMatch = await bcrypt.compare(password,User.password);
     if(!isMatch){
         return res.json({success:false,message:"Enter Valid Password"});
     }
@@ -63,9 +60,9 @@ const registerUser = async (req,res) => {
     })
  
     // adding the new user details in the database
-    const user = await newUser.save();
+    const saveduser = await newUser.save();
 
-    const token = createToken(user._id);
+    const token = createToken(saveduser._id);
 
     res.json({success:true,token:token});
 
@@ -79,6 +76,7 @@ const registerUser = async (req,res) => {
 //Route for Admin Login 
 const adminLogin = async (req,res) => {
      try {
+        console.log("Admin login hit:", req.body);
         const {email,password} = req.body
         if(email===process.env.ADMIN_EMAIL && password===process.env.ADMIN_PASSWORD){
             // if email and password matches with admin details we will create a token 

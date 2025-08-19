@@ -9,7 +9,8 @@ const ShopContextProvider = (props) => {
     const [search,setsearch] = useState('');
     const [searchvisible,setsearchvisible] = useState(false);
     const [cartitems,setcartitems] = useState({});
-
+    const [token,settoken] = useState('')
+    const backendUrl = 'http://localhost:4000'
     const addtocart = async (itemId,size) => {
         if(!size){
             toast.error("Select Product Size");
@@ -72,6 +73,12 @@ const ShopContextProvider = (props) => {
         return totalAmount;
     }
 
+    useEffect(()=>{
+       if(!token && localStorage.getItem('token')){
+        settoken(localStorage.getItem('token'))
+       }
+    },[])
+
     const value = {
        products,
        currency,
@@ -81,11 +88,14 @@ const ShopContextProvider = (props) => {
        setsearch,
        setsearchvisible,
        cartitems,
+       setcartitems,
        addtocart,
        getcartcount,
        updateQuantity,
        getCartAmount,
-
+       token,
+       settoken,
+       backendUrl,
     } 
     
     return (

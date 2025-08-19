@@ -8,18 +8,18 @@ import userRouter from './routes/userRoute.js';
 import productRouter from './routes/productRoute.js';
 
 //App Config 
-const app = express()
+const app = express() 
 const port = process.env.PORT || 4000
 
 connectdb()
-connectCloudinary()
+connectCloudinary() 
 
 
 //Middlewares
-app.use(cors)
+app.use(cors())
 app.use(express.json())
-app.use(cookieParser)
-app.use(urlencoded)
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 //API Endpoint
 app.use('/api/user', userRouter)
