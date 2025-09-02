@@ -14,8 +14,15 @@ const orderSchema = new Schema({
         required: true
     },
     address: {
-        type: String,
-        required: true,
+        firstName: { type: String, required: true },
+        lastName: { type: String, required: true },
+        email: { type: String, required: true },
+        street: { type: String, required: true },
+        city: { type: String, required: true },
+        state: { type: String, required: true },
+        zipcode: { type: String, required: true },
+        country: { type: String, required: true },
+        phone: { type: String, required: true }
     },
     status: {
         type: String,
@@ -36,7 +43,7 @@ const orderSchema = new Schema({
         required: true
     }
 
-},{timestamps: true})
+}, { timestamps: true })
 
-const order = mongoose.model('order',orderSchema)
+const order = mongoose.model('order', orderSchema)
 export default order

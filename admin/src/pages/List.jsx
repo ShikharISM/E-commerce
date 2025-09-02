@@ -5,7 +5,7 @@ import {toast} from 'react-toastify'
 const List = ({token}) => {
   const [list,setlist] = useState([])
   const fetchList = async () => {
-    const response = await axios.get(backendUrl + '/api/product/list')
+    const response = await axios.post(backendUrl + '/api/product/list')
     console.log(response.data);
     if(response.data.success){
       setlist(response.data.products)

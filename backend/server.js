@@ -9,11 +9,11 @@ import productRouter from './routes/productRoute.js';
 import cartRouter from './routes/cartRoute.js'
 import orderRouter from './routes/orderRoute.js';
 //App Config 
-const app = express() 
+const app = express()
 const port = process.env.PORT || 4000
 
 connectdb()
-connectCloudinary() 
+connectCloudinary()
 
 
 const corsOptions = {
@@ -23,7 +23,11 @@ const corsOptions = {
   credentials: true
 };
 //Middlewares
-app.use(cors(corsOptions))
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:5174"], // allow both
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(express.json())
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -31,15 +35,15 @@ app.use(express.urlencoded({ extended: true }));
 
 //API Endpoint
 app.use('/api/user', userRouter)
-app.use('/api/product',productRouter)
-app.use('/api/cart',cartRouter)
-app.use('/api/order',orderRouter)
+app.use('/api/product', productRouter)
+app.use('/api/cart', cartRouter)
+app.use('/api/order', orderRouter)
 
-app.get('/',(req,res)=>{
-    res.send("API Working").status(200);
+app.get('/', (req, res) => {
+  res.send("API Working").status(200);
 })
 
-app.listen(port,(req,res)=>{
+app.listen(port, (req, res) => {
   console.log('Server started on PORT:' + port);
 })
 

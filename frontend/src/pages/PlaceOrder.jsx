@@ -68,6 +68,7 @@ const PlaceOrder = () => {
           }
         }
       }
+      console.log(orderItems)
 
       let orderData = {
         address: formdata,
@@ -92,6 +93,17 @@ const PlaceOrder = () => {
            break;
         }
 
+        case 'stripe': {
+          const response = await axios.post(backendUrl + '/api/order/stripe', orderData, {headers: {token}})
+          if(response.data.success){
+            const {session_url} = response.data
+            window.location.replace(session_url) // Redirect to stripe checkout
+          }
+          else{
+            toast.error(response.data.message)
+          }
+          break;
+        }
         default:
           break
       }
@@ -138,10 +150,10 @@ const PlaceOrder = () => {
                 <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'stripe' ? 'bg-green-300' : ''}`}></p>
                 <img src={assets.stripe_logo} className='h-5 mx-4' alt="" />
              </div>
-             <div onClick={()=>setmethod('razorpay')} className='flex items-center gap-3 border p-2 cursor-pointer px-3 w-150'>
+             {/* <div onClick={()=>setmethod('razorpay')} className='flex items-center gap-3 border p-2 cursor-pointer px-3 w-150'>
                 <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'razorpay' ? 'bg-green-300' : ''}`}></p>
                 <img src={assets.razorpay_logo} className='h-5 mx-4' alt="" />
-             </div>
+             </div> */}
              <div onClick={()=>setmethod('cod')} className='flex items-center gap-3 border p-2 cursor-pointer px-3 w-150'>
                 <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'cod' ? 'bg-green-300' : ''}`}></p>
                 <p className='text-gray-700 text-sm  font-medium mx-4'>Cash On Delivery </p>
