@@ -24,7 +24,7 @@ const corsOptions = {
 };
 //Middlewares
 app.use(cors({
-  origin: "https://e-commerce-frontend-app-nine.vercel.app/",
+  origin: "https://e-commerce-frontend-app-nine.vercel.app",
   credentials: true
 }));
 app.use(express.json())
