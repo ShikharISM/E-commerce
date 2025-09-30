@@ -24,8 +24,7 @@ const corsOptions = {
 };
 //Middlewares
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174"], // allow both
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: "https://e-commerce-frontend-app-nine.vercel.app/",
   credentials: true
 }));
 app.use(express.json())
